@@ -25,8 +25,14 @@ variable "centos8_stream_sha256sum_url" {
 }
 
 source "qemu" "centos8-stream" {
-  boot_command     = ["<up><tab> ", "inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos8-stream.ks ", "console=ttyS0 inst.cmdline", "<enter>"]
+  boot_command     = [
+    "<up><tab> ",
+    "inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos8-stream.ks ",
+    "console=ttyS0 inst.cmdline",
+    "<enter>"
+  ]
   boot_wait        = "3s"
+  vnc_bind_address = "0.0.0.0"
   communicator     = "none"
   disk_size        = "4G"
   headless         = true
@@ -34,7 +40,12 @@ source "qemu" "centos8-stream" {
   iso_checksum     = "file:${var.centos8_stream_sha256sum_url}"
   iso_url          = var.centos8_stream_iso_url
   memory           = 2048
-  qemuargs         = [["-serial", "stdio"]]
+  qemuargs         = [
+    # ["-serial", "stdio"],
+    ["-serial", "file:serial.log"],
+    ["-serial", "mon:file:serial.log"],
+    ["-serial", "mon:telnet:127.0.0.1:4445,server,nowait"]
+  ]
   shutdown_timeout = "1h"
 }
 
