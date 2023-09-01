@@ -16,9 +16,13 @@ format:
 	packer fmt .
 
 build_cloud:
+ifeq ($(wildcard scripts/cloudimg/customize.sh.bak),)
 	# Replace variables in customize.sh
 	cp -p scripts/cloudimg/customize.sh scripts/cloudimg/customize.sh.bak
 	sed -i 's/ZABBIX_SERVER/${ZABBIX_SERVER}/g' scripts/cloudimg/customize.sh
+else
+	@echo Backup file already exists
+endif
 
 build_flat:
 	@echo "Build flat not implemented"

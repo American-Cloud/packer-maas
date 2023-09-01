@@ -9,9 +9,13 @@ ARGS ?=
 all: rocky8.tar.gz
 
 build:
+ifeq ($(wildcard http/rocky.ks.bak),)
 	# Replace variables in kickstart file
 	cp -p http/rocky.ks http/rocky.ks.bak
 	sed -i 's/ZABBIX_SERVER/${ZABBIX_SERVER}/g' http/rocky.ks
+else
+	@echo Backup file already exists
+endif
 
 rocky8.tar.gz: clean build
 	sudo ${PACKER} init rocky8.pkr.hcl && sudo PACKER_LOG=${PACKER_LOG} ${PACKER} build rocky8.pkr.hcl
