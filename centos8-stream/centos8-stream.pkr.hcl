@@ -25,7 +25,7 @@ variable "centos8_stream_sha256sum_url" {
 }
 
 source "qemu" "centos8-stream" {
-  boot_command     = [
+  boot_command = [
     "<up><tab> ",
     "inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos8-stream.ks ",
     "console=ttyS0 inst.cmdline",
@@ -40,7 +40,7 @@ source "qemu" "centos8-stream" {
   iso_checksum     = "file:${var.centos8_stream_sha256sum_url}"
   iso_url          = var.centos8_stream_iso_url
   memory           = 2048
-  qemuargs         = [
+  qemuargs = [
     # ["-serial", "stdio"],
     ["-serial", "file:serial.log"],
     ["-serial", "mon:file:serial.log"],

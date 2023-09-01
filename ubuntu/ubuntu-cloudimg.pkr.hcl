@@ -28,18 +28,18 @@ source "null" "dependencies" {
 }
 
 source "qemu" "cloudimg" {
-  boot_wait      = "5s"
-  cpus           = 2
-  disk_image     = true
-  disk_size      = "4G"
-  format         = "qcow2"
+  boot_wait        = "5s"
+  cpus             = 2
+  disk_image       = true
+  disk_size        = "4G"
+  format           = "qcow2"
   vnc_bind_address = "0.0.0.0"
-  headless       = var.headless
-  http_directory = var.http_directory
-  iso_checksum   = "file:https://cloud-images.ubuntu.com/${var.ubuntu_series}/current/SHA256SUMS"
-  iso_url        = "https://cloud-images.ubuntu.com/${var.ubuntu_series}/current/${var.ubuntu_series}-server-cloudimg-${var.architecture}.img"
-  memory         = 2048
-  qemu_binary    = "qemu-system-${lookup(local.qemu_arch, var.architecture, "")}"
+  headless         = var.headless
+  http_directory   = var.http_directory
+  iso_checksum     = "file:https://cloud-images.ubuntu.com/${var.ubuntu_series}/current/SHA256SUMS"
+  iso_url          = "https://cloud-images.ubuntu.com/${var.ubuntu_series}/current/${var.ubuntu_series}-server-cloudimg-${var.architecture}.img"
+  memory           = 2048
+  qemu_binary      = "qemu-system-${lookup(local.qemu_arch, var.architecture, "")}"
   qemu_img_args {
     create = ["-F", "qcow2"]
   }
